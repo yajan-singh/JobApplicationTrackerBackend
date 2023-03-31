@@ -1,4 +1,11 @@
+from time import sleep
 import pymongo
+import os
+
+
+# Clear console lambda
+def clear(): return os.system('clear')
+
 
 # Connect to MongoDB
 client = pymongo.MongoClient(
@@ -7,6 +14,9 @@ db = client["APPLICATIONS"]
 
 # Insert application handler
 while True:
+    # clear console
+    clear()
+
     # reset variables
     company = ""
     position = ""
@@ -23,7 +33,8 @@ while True:
 
     for i in db.applications.find(
             {"company.name": company, "company.positions.title": position}):
-        print("Application already exists!")
+        print("\nApplication already exists!")
+        sleep(2)
         break
     else:
         # insert application
