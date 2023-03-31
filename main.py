@@ -12,6 +12,7 @@ while True:
     position = ""
     link = ""
 
+    print("\nTotal Applied: ", db.applications.count_documents({}) - 1, "\n")
     # wait for user input
     while company == "":
         company = input("Company Name: ").lower()
@@ -23,18 +24,17 @@ while True:
     for i in db.applications.find(
             {"company.name": company, "company.positions.title": position}):
         print("Application already exists!")
-        continue
-
-    # insert application
-    db.applications.insert_one({
-        "company": {
-            "name": company,
-            "positions": [{
-                "title": position,
-                "link": link,
-            }]
-        },
-        "status": 0,
-        "mail": "",
-    })
-
+        break
+    else:
+        # insert application
+        db.applications.insert_one({
+            "company": {
+                "name": company,
+                "positions": [{
+                    "title": position,
+                    "link": link,
+                }]
+            },
+            "status": 0,
+            "mail": "",
+        })
