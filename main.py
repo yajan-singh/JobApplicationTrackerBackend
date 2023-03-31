@@ -23,20 +23,31 @@ while True:
     link = ""
 
     print("\nTotal Applied: ", db.applications.count_documents({}) - 1, "\n")
+
     # wait for user input
     while company == "":
         company = input("Company Name: ").lower()
+    if company == "-":
+        continue
     while position == "":
         position = input("Position Title: ").lower()
-    while link == "":
-        link = input("Position URL: ").lower()
+    if position == "-":
+        continue
 
+    # check if application already exists
     for i in db.applications.find(
             {"company.name": company, "company.positions.title": position}):
         print("\nApplication already exists!")
         sleep(2)
         break
     else:
+
+        # wait for user input
+        while link == "":
+            link = input("Position URL: ").lower()
+        if link == "-":
+            continue
+
         # insert application
         db.applications.insert_one({
             "company": {
